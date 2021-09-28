@@ -63,18 +63,22 @@ Bug Report Bills. [^1]
 _Given I am connected as an employee > Then I am on Bills's pages > Then Bills should be ordered from earliest to latest_
 
 - [x] Bills\_\_test: **PASS**
-- [x] Bills\_\_Container (getBills()), Now, sort bills per dates from earliest to latest;
+- [x] Bills\_\_Container (getBills()), Now, Bills are sorted per dates from earliest to latest;
+
+- Notes:
+- datas retrieved : getBills() > file: Bills.js\_\_containers
+- datas displayed : rows(); et row(); files: BillsUI\_\_views
 
 ---
 
 Bug Report Login. [^1]
 [^1]: Priority High.
 
-_Given I am a user on Login's page > When i do fill fields in correct format and I clicked on admin button Login in > Then I should be identified ans an HR admin in app_
+_Given I am a user on Login's page > When I do fill fields in correct format and I clicked on admin button Login in > Then I should be identified ans an RH admin in app_
 
 - [x] Login\_\_test: **PASS**
 
-_Given I am a user on Login's page > When i do fill fields in correct format and I clicked on admin button Login in > Then I should renders HR dashboard's page_
+_Given I am a user on Login's page > When i do fill fields in correct format and I clicked on admin button Login in > Then I should renders RH dashboard's page_
 
 - [x] Login\_\_test: **PASS**
 

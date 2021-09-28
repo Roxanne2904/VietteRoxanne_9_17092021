@@ -65,6 +65,10 @@ export default class {
               }
             })
             .filter((bill) => bill.email === userEmail)
+
+            //Viette Roxanne
+            // ..................
+            //code added to sort dates
             .sort(function (a, b) {
               let dateA = new Date(a.date).getTime();
               let dateB = new Date(b.date).getTime();
@@ -79,8 +83,10 @@ export default class {
                 date: formatDate(data.date),
               };
             });
-          // console.log(bills);
+          // ..................
+
           console.log("length", bills.length);
+          console.log(bills);
           return bills;
         })
         .catch((error) => error);

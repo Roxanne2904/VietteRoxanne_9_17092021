@@ -19,6 +19,9 @@ const row = (bill) => {
     `;
 };
 const rows = (data) => {
+  // console.log(data);
+  // ex:
+  // data.length= 2;
   return data && data.length ? data.map((bill) => row(bill)).join("") : "";
 };
 
