@@ -66,3 +66,16 @@ _Given I am connected as an employee > Then I am on Bills's pages > Then Bills s
 - [x] Bills\_\_Container (getBills()), Now, sort bills per dates from earliest to latest;
 
 ---
+
+Bug Report Login. [^1]
+[^1]: Priority High.
+
+_Given I am a user on Login's page > When i do fill fields in correct format and I clicked on admin button Login in > Then I should be identified ans an HR admin in app_
+
+- [x] Login\_\_test: **PASS**
+
+_Given I am a user on Login's page > When i do fill fields in correct format and I clicked on admin button Login in > Then I should renders HR dashboard's page_
+
+- [x] Login\_\_test: **PASS**
+
+---
