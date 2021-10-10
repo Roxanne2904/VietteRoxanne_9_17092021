@@ -1,7 +1,6 @@
 import VerticalLayout from "./VerticalLayout.js";
 import ErrorPage from "./ErrorPage.js";
 import LoadingPage from "./LoadingPage.js";
-
 import Actions from "./Actions.js";
 
 const row = (bill) => {
@@ -18,6 +17,7 @@ const row = (bill) => {
     </tr>
     `;
 };
+
 const rows = (data) => {
   // console.log(data);
   // ex:
@@ -43,8 +43,10 @@ export default ({ data: bills, loading, error }) => {
     </div>
   `;
 
+  /* istanbul ignore next */
   if (loading) {
     return LoadingPage();
+    /* istanbul ignore next */
   } else if (error) {
     return ErrorPage(error);
   }

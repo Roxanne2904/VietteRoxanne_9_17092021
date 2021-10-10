@@ -1,25 +1,9 @@
-import { screen } from "@testing-library/dom";
-import BillsUI from "../views/BillsUI.js";
-import { bills } from "../fixtures/bills.js";
-
-describe("Given I am connected as an employee", () => {
-  describe("When I am on Bills Page", () => {
-    test("Then bill icon in vertical layout should be highlighted", () => {
-      const html = BillsUI({ data: [] });
-      document.body.innerHTML = html;
-      //to-do write expect expression
-    });
-    test("Then bills should be ordered from earliest to latest", () => {
-      const html = BillsUI({ data: bills });
-      document.body.innerHTML = html;
-      let dates = screen
-        .getAllByText(
-          /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i
-        )
-        .map((a) => a.innerHTML);
-      const antiChrono = (a, b) => (a < b ? 1 : -1);
-      let datesSorted = [...dates].sort(antiChrono);
-      expect(dates).toEqual(datesSorted);
-    });
-  });
-});
+import { fireEvent, screen } from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
+import DashboardFormUI from "../views/DashboardFormUI.js";
+import DashboardUI from "../views/DashboardUI.js";
+import Dashboard, { filteredBills, cards } from "../containers/Dashboard.js";
+import { ROUTES } from "../constants/routes";
+import { localStorageMock } from "../__mocks__/localStorage.js";
+import firebase from "../__mocks__/firebase";
+import { bills } from "../fixtures/bills";

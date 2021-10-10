@@ -7,7 +7,7 @@ export let bills = [
     status: "pending",
     type: "Hôtel et logement",
     commentary: "séminaire billed",
-    name: "encore",
+    name: "test4",
     fileName: "preview-facture-free-201801-pdf-1.jpg",
     date: "2004-04-04",
     amount: 400,

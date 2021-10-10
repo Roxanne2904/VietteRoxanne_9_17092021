@@ -26,7 +26,10 @@ export default class {
 
   handleClickIconEye = (icon) => {
     const billUrl = icon.getAttribute("data-bill-url");
-    const imgWidth = Math.floor($("#modaleFile").width() * 0.5);
+    //Viette Roxanne
+    const imgWidth = Math.floor($("#modaleFile").width() * 0.4);
+    // before change
+    // const imgWidth = Math.floor($("#modaleFile").width() * 0.5);
     $("#modaleFile")
       .find(".modal-body")
       .html(
@@ -72,7 +75,7 @@ export default class {
             .sort(function (a, b) {
               let dateA = new Date(a.date).getTime();
               let dateB = new Date(b.date).getTime();
-              // console.log(dateA);
+              console.log(dateA);
               // console.log(dateB);
               // console.log(dateA > dateB ? 1 : -1);
               return dateA < dateB ? 1 : -1;
