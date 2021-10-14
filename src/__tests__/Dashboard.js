@@ -7,6 +7,9 @@ import { ROUTES } from "../constants/routes";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import firebase from "../__mocks__/firebase";
 import { bills } from "../fixtures/bills";
+// -----
+$.fn.modal = jest.fn();
+// -----
 
 describe("Given I am connected as an Admin", () => {
   describe("When I am on Dashboard page, there are bills, and there is one pending", () => {
@@ -43,7 +46,7 @@ describe("Given I am connected as an Admin", () => {
   });
 
   describe("When I am on Dashboard page and I click on arrow", () => {
-    test("Then, tickets list should be unfolding, and cars should contain first and lastname", async () => {
+    test("Then, tickets list should be unfolding, and cars should contain first and lastname", () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname });
       };
@@ -86,7 +89,6 @@ describe("Given I am connected as an Admin", () => {
       icon1.addEventListener("click", handleShowTickets1);
       userEvent.click(icon1);
       expect(handleShowTickets1).toHaveBeenCalled();
-      userEvent.click(icon1);
 
       icon2.addEventListener("click", handleShowTickets2);
       userEvent.click(icon2);

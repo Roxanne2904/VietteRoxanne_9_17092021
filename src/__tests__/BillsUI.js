@@ -7,10 +7,26 @@ import { getByTestId } from "@testing-library/dom";
 //---
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import { screen } from "@testing-library/dom";
+import LoadingPage from "./LoadingPage.js";
+import ErrorPage from "./ErrorPage.js";
 import BillsUI from "../views/BillsUI.js";
 import { bills } from "../fixtures/bills.js";
 
 describe("Given I am connected as an employee", () => {
+  describe("When I am waiting for user's page", () => {
+    test("Then, the page is on load", () => {
+      const html = BillsUI({ loading: LoadingPage });
+      document.body.innerHTML = html;
+      let element = screen.getByTestId("load");
+      expect(element).toHaveTextContent("Loading...");
+    });
+    test("Then, the page don't get datas", () => {
+      const html = BillsUI({ error: ErrorPage });
+      document.body.innerHTML = html;
+      let element = screen.getByTestId("error-title");
+      expect(element).toHaveTextContent("Erreur");
+    });
+  });
   describe("When I am on Bills Page", () => {
     test("Then bill icon in vertical layout should be highlighted", () => {
       //viette roxanne

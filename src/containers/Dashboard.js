@@ -4,71 +4,25 @@ import BigBilledIcon from "../assets/svg/big_billed.js";
 import { ROUTES_PATH } from "../constants/routes.js";
 import USERS_TEST from "../constants/usersTest.js";
 import Logout from "./Logout.js";
-//
-import { bills } from "../fixtures/bills.js";
-//
 
 export const filteredBills = (data, status, jest) => {
-  //viette roxanne
-  let arrayData; //variable ajouté;
-  let errorDate; //variable ajouté;
-  let imageValid; //variable ajouté;
-  //------------
-  arrayData = data.filter((bill) => {
-    let selectCondition;
-    // in jest environment
-    if (typeof jest !== "undefined") {
-      selectCondition = bill.status === status;
-    } else {
-      // in prod environment
-      const userEmail = JSON.parse(localStorage.getItem("user")).email;
-      selectCondition =
-        bill.status === status &&
-        [...USERS_TEST, userEmail].includes(bill.email);
-    }
-    return selectCondition;
-  });
-  //viette roxanne
-  //_________________________________
-  //Don't keep bills with date's error
-  errorDate = arrayData
-    .map((bill) => {
-      if (bill.date === "") {
-        return true;
-      }
-    })
-    .find((date) => date === true);
-
-  //________________________________
-  imageValid = arrayData
-    .filter((bill) => {
-      if (bill.fileUrl !== null) {
-        return true;
-      }
-    })
-    .filter((bill) => {
-      let file = bill.fileUrl.split("?")[0];
-      if (
-        file.endsWith("png") ||
-        file.endsWith("jpg") ||
-        file.endsWith("jpeg")
-      ) {
-        return true;
-      }
-    });
-  arrayData = imageValid;
-  //________________________________
-  if (errorDate === true) {
-    let indexOfError = arrayData.findIndex((ele) => {
-      return ele.date === "";
-    });
-    arrayData.splice(indexOfError, 1);
-  }
-
-  //________________________________
-  return data && data.length ? arrayData : [];
+  return data && data.length
+    ? data.filter((bill) => {
+        let selectCondition;
+        // in jest environment
+        if (typeof jest !== "undefined") {
+          selectCondition = bill.status === status;
+        } else {
+          // in prod environment
+          const userEmail = JSON.parse(localStorage.getItem("user")).email;
+          selectCondition =
+            bill.status === status &&
+            [...USERS_TEST, userEmail].includes(bill.email);
+        }
+        return selectCondition;
+      })
+    : [];
 };
-filteredBills(bills, "pending", `${bills.test}`);
 
 export const card = (bill) => {
   const firstAndLastNames = bill.email.split("@")[0];
@@ -209,25 +163,64 @@ export default class {
     return bills;
   }
 
+  /* istanbul ignore next */
   // not need to cover this function by tests
   getBillsAllUsers = () => {
+    let errorDate; //variable ajouté;
+    let imageValid; //variable ajouté;
+
     if (this.firestore) {
       return this.firestore
         .bills()
         .get()
         .then((snapshot) => {
-          const bills = snapshot.docs.map((doc) => ({
+          let bills = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
             date: doc.data().date,
             status: doc.data().status,
           }));
+          errorDate = bills
+            .map((bill) => {
+              if (bill.date === "") {
+                return true;
+              }
+            })
+            .find((date) => date === true);
+
+          if (errorDate === true) {
+            let indexOfError = bills.findIndex((ele) => {
+              return ele.date === "";
+            });
+            bills.splice(indexOfError, 1);
+          }
+          // -------
+          imageValid = bills
+            .filter((bill) => {
+              if (bill.fileUrl !== null) {
+                return true;
+              }
+            })
+            .filter((bill) => {
+              let file = bill.fileUrl.split("?")[0];
+              if (
+                file.endsWith("png") ||
+                file.endsWith("jpg") ||
+                file.endsWith("jpeg")
+              ) {
+                return true;
+              }
+            });
+          // -------
+          bills = imageValid;
+          // -------
           return bills;
         })
         .catch(console.log);
     }
   };
 
+  /* istanbul ignore next */
   // not need to cover this function by tests
   updateBill = (bill) => {
     if (this.firestore) {
