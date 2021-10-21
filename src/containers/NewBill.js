@@ -21,21 +21,41 @@ export default class NewBill {
       .files[0];
     const filePath = e.target.value.split(/\\/g);
     const fileName = filePath[filePath.length - 1];
-    console.log(
-      this.firestore.storage
-        .ref(`justificatifs/${fileName}`)
-        .put(file)
-        .then((snapshot) => snapshot.ref.getDownloadURL())
-    );
-    this.firestore.storage
-      .ref(`justificatifs/${fileName}`)
-      .put(file)
-      .then((snapshot) => snapshot.ref.getDownloadURL())
-      .then((url) => {
-        this.fileUrl = url;
-        this.fileName = fileName;
-      });
+    const fileExt = file.name
+      .split(".")
+      [file.name.split(".").length - 1].toLowerCase();
+    const arrayExt = ["jpeg", "jpg", "png"];
+
+    // console.log(
+    //   this.firestore.storage
+    //     .ref(`justificatifs/${fileName}`)
+    //     .put(file)
+    //     .then((snapshot) => snapshot.ref.getDownloadURL())
+    // );
+
+    if (arrayExt.includes(fileExt)) {
+      this.document.querySelector("#block-inputFile").dataset.errorVisible =
+        "false";
+      /* istanbul ignore next */
+      if (this.firestore != null) {
+        this.firestore.storage
+          .ref(`justificatifs/${fileName}`)
+          .put(file)
+          .then((snapshot) => snapshot.ref.getDownloadURL())
+          .then((url) => {
+            this.fileUrl = url;
+            console.log(this.fileUrl);
+            this.fileName = fileName;
+            console.log(this.fileName);
+          });
+      }
+    } else {
+      this.document.querySelector(`input[data-testid="file"]`).value = null;
+      this.document.querySelector("#block-inputFile").dataset.errorVisible =
+        "true";
+    }
   };
+
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(
@@ -61,24 +81,10 @@ export default class NewBill {
       fileName: this.fileName,
       status: "pending",
     };
-    //*************************/
-    //viette roxanne
-    // console.log(bill);
-    // console.log(bill.fileName);
-    const isValidJpg = bill.fileName.endsWith(".jpg");
-    const isValidJpeg = bill.fileName.endsWith(".jpeg");
-    const isValidPng = bill.fileName.endsWith(".png");
-    if (isValidJpg || isValidJpeg || isValidPng) {
-      if (bill.fileName === null) {
-        return alert("Oups! Error, please renew the sending of your proof");
-      }
-      return this.createBill(bill), this.onNavigate(ROUTES_PATH["Bills"]);
-    } else {
-      return alert("Error, you're image must be in jpeg, jpg or pgn");
-    }
-    //*************************/
+    return this.createBill(bill), this.onNavigate(ROUTES_PATH["Bills"]);
   };
 
+  /* istanbul ignore next */
   // not need to cover this function by tests
   createBill = (bill) => {
     if (this.firestore) {

@@ -92,7 +92,6 @@ export default class {
           // ..................
 
           console.log("length", bills.length);
-          console.log(bills);
           return bills;
         })
         .catch((error) => error);

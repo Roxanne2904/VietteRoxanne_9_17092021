@@ -57,7 +57,7 @@ describe("Given I am connected as an Admin", () => {
       window.localStorage.setItem(
         "user",
         JSON.stringify({
-          type: "Admin",
+          type: "Employee",
         })
       );
 

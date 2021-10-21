@@ -1,14 +1,161 @@
-import { screen } from "@testing-library/dom"
-import NewBillUI from "../views/NewBillUI.js"
-import NewBill from "../containers/NewBill.js"
+/**
+ * @jest-environment jsdom
+ */
+import "@testing-library/jest-dom";
+//----
+import { fireEvent, screen } from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
+import NewBillUI from "../views/NewBillUI.js";
+import NewBill from "../containers/NewBill.js";
+import { localStorageMock } from "../__mocks__/localStorage.js";
+import firestore from "../app/Firestore.js";
+import { bills } from "../fixtures/bills";
+import { ROUTES } from "../constants/routes";
+import firebase from "../__mocks__/firebase";
+import BillsUI from "../views/BillsUI.js";
 
+describe("Given I am connected as an employee, on NewBill Page", () => {
+  describe("When I am on NewBill Page ", () => {
+    test("Then the NewBill's page should be displayed", () => {
+      Object.defineProperty(window, "localStorage", {
+        value: localStorageMock,
+      });
+      const user = JSON.stringify({
+        type: "Employee",
+      });
+      window.localStorage.setItem("user", user);
+      //----------------------
+      const html = NewBillUI();
+      document.body.innerHTML = html;
+      //----------------------
+      const title = screen.getByTestId("title");
+      expect(title).toHaveTextContent("Envoyer une note de frais");
+    });
 
-describe("Given I am connected as an employee", () => {
-  describe("When I am on NewBill Page", () => {
-    test("Then ...", () => {
-      const html = NewBillUI()
-      document.body.innerHTML = html
-      //to-do write assertion
-    })
-  })
-})
+    describe("When I upload a correct file (jpeg,jpg or png)", () => {
+      test("Then, it should render the file's name", () => {
+        //----------------------
+        const onNavigate = (pathname) => {
+          document.body.innerHTML = ROUTES({ pathname });
+        };
+        //----------------------
+        Object.defineProperty(window, "localStorage", {
+          value: localStorageMock,
+        });
+        const user = JSON.stringify({
+          type: "Employee",
+        });
+        window.localStorage.setItem("user", user);
+        //----------------------
+        const html = NewBillUI();
+        document.body.innerHTML = html;
+        //----------------------
+        const newBill = new NewBill({
+          document,
+          onNavigate,
+          firestore: null,
+          localStorage: window.localStorage,
+        });
+        //----------------------
+        const inputFile = screen.getByTestId("file");
+        // ---
+        const handleChangeFileMock = jest.fn((e) => {
+          newBill.handleChangeFile(e, true);
+        });
+
+        inputFile.addEventListener("change", handleChangeFileMock);
+
+        fireEvent.change(inputFile, {
+          target: {
+            files: [new File(["<(0.0)>"], "test.jpeg", { type: "image/jpeg" })],
+          },
+        });
+
+        expect(inputFile.files[0].name.endsWith("jpeg")).toBeTruthy();
+        expect(handleChangeFileMock).toHaveBeenCalled();
+      });
+    });
+    describe("When I upload an incorrect file (not jpeg, jpg or png)", () => {
+      test("Then, it should render the file's name as null", () => {
+        //----------------------
+        const onNavigate = (pathname) => {
+          document.body.innerHTML = ROUTES({ pathname });
+        };
+        //----------------------
+        Object.defineProperty(window, "localStorage", {
+          value: localStorageMock,
+        });
+        const user = JSON.stringify({
+          type: "Employee",
+        });
+        window.localStorage.setItem("user", user);
+        //----------------------
+        const html = NewBillUI();
+        document.body.innerHTML = html;
+        //----------------------
+        const newBill = new NewBill({
+          document,
+          onNavigate,
+          firestore: null,
+          localStorage: window.localStorage,
+        });
+        //----------------------
+        const inputFile = screen.getByTestId("file");
+        // ---
+        const handleChangeFileMock = jest.fn((e) => {
+          newBill.handleChangeFile(e, true);
+        });
+
+        inputFile.addEventListener("change", handleChangeFileMock);
+
+        fireEvent.change(inputFile, {
+          target: {
+            files: [new File(["<(0.0)>"], "test.txt", { type: "text/txt" })],
+          },
+        });
+
+        expect(inputFile.files[0].name.endsWith("png")).not.toBeTruthy();
+        expect(inputFile.files[0].name.endsWith("jpeg")).not.toBeTruthy();
+        expect(inputFile.files[0].name.endsWith("jpg")).not.toBeTruthy();
+        expect(handleChangeFileMock).toHaveBeenCalled();
+      });
+    });
+
+    describe("When I submit the form", () => {
+      test("Then, it should render a NewBill", () => {
+        const onNavigate = (pathname) => {
+          document.body.innerHTML = ROUTES({ pathname });
+        };
+        //----------------------
+        Object.defineProperty(window, "localStorage", {
+          value: localStorageMock,
+        });
+        const user = JSON.stringify({
+          type: "Employee",
+          email: "rox-test@email.com",
+        });
+        window.localStorage.setItem("user", user);
+        //----------------------
+        const html = NewBillUI();
+        document.body.innerHTML = html;
+        //----------------------
+        const newBill = new NewBill({
+          document,
+          onNavigate,
+          firestore: null,
+          localStorage: window.localStorage,
+        });
+        const submitBtn = screen.getByTestId("form-new-bill");
+        const handleSubmitMock = jest.fn((e) => {
+          newBill.handleSubmit(e);
+        });
+        const input = (screen.getByTestId("expense-type").value = "Transport");
+
+        submitBtn.addEventListener("submit", handleSubmitMock);
+        fireEvent.submit(submitBtn);
+        expect(input).toBe("Transport");
+        expect(handleSubmitMock).not.toHaveBeenCalledTimes(0);
+      });
+    });
+  });
+});

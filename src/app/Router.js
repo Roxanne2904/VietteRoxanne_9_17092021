@@ -12,7 +12,6 @@ import { ROUTES, ROUTES_PATH } from "../constants/routes.js";
 export default () => {
   const rootDiv = document.getElementById("root");
   rootDiv.innerHTML = ROUTES({ pathname: window.location.pathname });
-
   window.onNavigate = (pathname) => {
     window.history.pushState({}, pathname, window.location.origin + pathname);
     if (pathname === ROUTES_PATH["Login"]) {
@@ -53,7 +52,12 @@ export default () => {
         });
     } else if (pathname === ROUTES_PATH["NewBill"]) {
       rootDiv.innerHTML = ROUTES({ pathname, loading: true });
-      new NewBill({ document, onNavigate, firestore, localStorage });
+      new NewBill({
+        document,
+        onNavigate,
+        firestore,
+        localStorage,
+      });
       const divIcon1 = document.getElementById("layout-icon1");
       const divIcon2 = document.getElementById("layout-icon2");
       divIcon1.classList.remove("active-icon");
@@ -120,9 +124,11 @@ export default () => {
         firestore,
         localStorage,
       });
+      //issue here !!!!
       bills
         .getBills()
         .then((data) => {
+          console.log(data);
           rootDiv.innerHTML = BillsUI({ data });
           const divIcon1 = document.getElementById("layout-icon1");
           const divIcon2 = document.getElementById("layout-icon2");
