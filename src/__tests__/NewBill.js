@@ -11,7 +11,7 @@ import { localStorageMock } from "../__mocks__/localStorage.js";
 import firestore from "../app/Firestore.js";
 import { bills } from "../fixtures/bills";
 import { ROUTES } from "../constants/routes";
-import firebase from "../__mocks__/firebase";
+import firebasePost from "../__mocks__/firebasePost.js";
 import BillsUI from "../views/BillsUI.js";
 
 describe("Given I am connected as an employee, on NewBill Page", () => {
@@ -156,6 +156,37 @@ describe("Given I am connected as an employee, on NewBill Page", () => {
         expect(input).toBe("Transport");
         expect(handleSubmitMock).not.toHaveBeenCalledTimes(0);
       });
+    });
+  });
+});
+
+// test d'intégration POST
+//----
+describe("Given I am a user connected as an Employee", () => {
+  describe("When I have just created a newBill, and I Have been redirected to Bill's page", () => {
+    test("Then, fetches bills included the new one, from mock API POST", async () => {
+      const getSpy = jest.spyOn(firebasePost, "post");
+      const bills = await firebasePost.post();
+      expect(getSpy).toHaveBeenCalledTimes(1);
+      expect(bills.newDatas.length).toBe(5);
+    });
+    test("Then, fetches bills from an API and fails with 404 message error", async () => {
+      firebasePost.post.mockImplementationOnce(() =>
+        Promise.reject(new Error("Erreur 404"))
+      );
+      const html = BillsUI({ error: "Erreur 404" });
+      document.body.innerHTML = html;
+      const message = await screen.getByText(/Erreur 404/);
+      expect(message).toBeTruthy();
+    });
+    test("Then, fetches messages from an API and fails with 500 message error", async () => {
+      firebasePost.post.mockImplementationOnce(() =>
+        Promise.reject(new Error("Erreur 500"))
+      );
+      const html = BillsUI({ error: "Erreur 500" });
+      document.body.innerHTML = html;
+      const message = await screen.getByText(/Erreur 500/);
+      expect(message).toBeTruthy();
     });
   });
 });

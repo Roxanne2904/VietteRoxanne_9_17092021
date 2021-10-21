@@ -11,6 +11,7 @@ import LoadingPage from "./LoadingPage.js";
 import ErrorPage from "./ErrorPage.js";
 import BillsUI from "../views/BillsUI.js";
 import BillsContainer from "../containers/Bills.js";
+import firebaseGet from "../__mocks__/firebaseGet.js";
 import { ROUTES } from "../constants/routes";
 import { ROUTES_PATH } from "../constants/routes.js";
 import { bills } from "../fixtures/bills.js";
@@ -122,16 +123,51 @@ describe("Given I am connected as an employee", () => {
         });
         //--------------------------------
         const icons = screen.getAllByTestId("icon-eye");
-        const modal = screen.getByTestId("modal-open");
         expect(icons).toHaveLength(4);
+        const modaleFile = screen.getByTestId("modaleFile");
+
         icons.forEach((icon) => {
           icon.addEventListener("click", (e) => {
             handleClickIconEyeMock(icon);
           });
           userEvent.click(icon);
+          const billUrl = icon.getAttribute("data-bill-url").split("?")[0];
+          console.log(modaleFile.className);
+          expect(modaleFile.innerHTML.includes(billUrl)).toBeTruthy();
           expect(handleClickIconEyeMock).toHaveBeenCalled();
         });
       });
+    });
+  });
+});
+
+// test d'intégration GET
+//----
+describe("Given I am a user connected as an Employee", () => {
+  describe("When I navigate to Bill's page", () => {
+    test("fetches bills from mock API GET", async () => {
+      const getSpy = jest.spyOn(firebaseGet, "get");
+      const bills = await firebaseGet.get();
+      expect(getSpy).toHaveBeenCalledTimes(1);
+      expect(bills.datas.length).toBe(4);
+    });
+    test("fetches bills from an API and fails with 404 message error", async () => {
+      firebaseGet.get.mockImplementationOnce(() =>
+        Promise.reject(new Error("Erreur 404"))
+      );
+      const html = BillsUI({ error: "Erreur 404" });
+      document.body.innerHTML = html;
+      const message = await screen.getByText(/Erreur 404/);
+      expect(message).toBeTruthy();
+    });
+    test("fetches messages from an API and fails with 500 message error", async () => {
+      firebaseGet.get.mockImplementationOnce(() =>
+        Promise.reject(new Error("Erreur 500"))
+      );
+      const html = BillsUI({ error: "Erreur 500" });
+      document.body.innerHTML = html;
+      const message = await screen.getByText(/Erreur 500/);
+      expect(message).toBeTruthy();
     });
   });
 });

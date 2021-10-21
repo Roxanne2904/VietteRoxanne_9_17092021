@@ -28,6 +28,7 @@ export default class {
 
   handleClickIconEye = (icon) => {
     const billUrl = icon.getAttribute("data-bill-url");
+
     //Viette Roxanne
     const imgWidth = Math.floor($("#modaleFile").width() * 0.4);
     // before change

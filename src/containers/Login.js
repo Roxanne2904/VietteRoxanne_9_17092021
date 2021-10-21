@@ -66,6 +66,7 @@ export default class Login {
   };
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   checkIfUserExists = (user) => {
     if (this.firestore) {
       this.firestore

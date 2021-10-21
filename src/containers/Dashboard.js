@@ -163,8 +163,8 @@ export default class {
     return bills;
   }
 
-  /* istanbul ignore next */
   // not need to cover this function by tests
+  /* istanbul ignore next */
   getBillsAllUsers = () => {
     let errorDate; //variable ajouté;
     let imageValid; //variable ajouté;
@@ -220,8 +220,8 @@ export default class {
     }
   };
 
-  /* istanbul ignore next */
   // not need to cover this function by tests
+  /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.firestore) {
       return this.firestore
