@@ -86,6 +86,7 @@ export default class Login {
     }
   };
 
+  /* istanbul ignore next */
   // not need to cover this function by tests
   createUser = (user) => {
     if (this.firestore) {

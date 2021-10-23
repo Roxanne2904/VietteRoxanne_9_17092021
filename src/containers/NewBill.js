@@ -26,29 +26,28 @@ export default class NewBill {
       [file.name.split(".").length - 1].toLowerCase();
     const arrayExt = ["jpeg", "jpg", "png"];
 
-    // console.log(
-    //   this.firestore.storage
-    //     .ref(`justificatifs/${fileName}`)
-    //     .put(file)
-    //     .then((snapshot) => snapshot.ref.getDownloadURL())
-    // );
+    console.log(
+      this.firestore.storage
+        .ref(`justificatifs/${fileName}`)
+        .put(file)
+        .then((snapshot) => snapshot.ref.getDownloadURL())
+    );
 
     if (arrayExt.includes(fileExt)) {
       this.document.querySelector("#block-inputFile").dataset.errorVisible =
         "false";
-      /* istanbul ignore next */
-      if (this.firestore != null) {
-        this.firestore.storage
-          .ref(`justificatifs/${fileName}`)
-          .put(file)
-          .then((snapshot) => snapshot.ref.getDownloadURL())
-          .then((url) => {
-            this.fileUrl = url;
-            console.log(this.fileUrl);
-            this.fileName = fileName;
-            console.log(this.fileName);
-          });
-      }
+
+      this.firestore.storage
+        .ref(`justificatifs/${fileName}`)
+        .put(file)
+        .then((snapshot) => snapshot.ref.getDownloadURL())
+        .then((url) => {
+          console.log(url);
+          this.fileUrl = url;
+          console.log(this.fileUrl);
+          this.fileName = fileName;
+          console.log(this.fileName);
+        });
     } else {
       this.document.querySelector(`input[data-testid="file"]`).value = null;
       this.document.querySelector("#block-inputFile").dataset.errorVisible =

@@ -55,6 +55,7 @@ export default class {
           const bills = snapshot.docs
             .map((doc) => {
               try {
+                console.log(doc.data());
                 return {
                   ...doc.data(),
                   // date: formatDate(doc.data().date),

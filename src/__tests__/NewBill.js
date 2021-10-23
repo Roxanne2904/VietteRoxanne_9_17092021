@@ -4,26 +4,38 @@
 import "@testing-library/jest-dom";
 //----
 import { fireEvent, screen } from "@testing-library/dom";
-import userEvent from "@testing-library/user-event";
 import NewBillUI from "../views/NewBillUI.js";
 import NewBill from "../containers/NewBill.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
-import firestore from "../app/Firestore.js";
-import { bills } from "../fixtures/bills";
 import { ROUTES } from "../constants/routes";
 import firebasePost from "../__mocks__/firebasePost.js";
 import BillsUI from "../views/BillsUI.js";
-
+//---
+const storage = {
+  ref: () => storage,
+  put: async () => {
+    return {
+      ref: { getDownloadURL: () => "https//test-rox.com" },
+    };
+  },
+};
+const onNavigate = (pathname) => {
+  document.body.innerHTML = ROUTES({ pathname });
+};
+//---
+Object.defineProperty(window, "localStorage", {
+  value: localStorageMock,
+});
+//---
+const user = JSON.stringify({
+  type: "Employee",
+  email: "rox-test@email.com",
+});
+window.localStorage.setItem("user", user);
+//---
 describe("Given I am connected as an employee, on NewBill Page", () => {
   describe("When I am on NewBill Page ", () => {
     test("Then the NewBill's page should be displayed", () => {
-      Object.defineProperty(window, "localStorage", {
-        value: localStorageMock,
-      });
-      const user = JSON.stringify({
-        type: "Employee",
-      });
-      window.localStorage.setItem("user", user);
       //----------------------
       const html = NewBillUI();
       document.body.innerHTML = html;
@@ -35,25 +47,13 @@ describe("Given I am connected as an employee, on NewBill Page", () => {
     describe("When I upload a correct file (jpeg,jpg or png)", () => {
       test("Then, it should render the file's name", () => {
         //----------------------
-        const onNavigate = (pathname) => {
-          document.body.innerHTML = ROUTES({ pathname });
-        };
-        //----------------------
-        Object.defineProperty(window, "localStorage", {
-          value: localStorageMock,
-        });
-        const user = JSON.stringify({
-          type: "Employee",
-        });
-        window.localStorage.setItem("user", user);
-        //----------------------
         const html = NewBillUI();
         document.body.innerHTML = html;
         //----------------------
         const newBill = new NewBill({
           document,
           onNavigate,
-          firestore: null,
+          firestore: { storage },
           localStorage: window.localStorage,
         });
         //----------------------
@@ -75,20 +75,9 @@ describe("Given I am connected as an employee, on NewBill Page", () => {
         expect(handleChangeFileMock).toHaveBeenCalled();
       });
     });
+
     describe("When I upload an incorrect file (not jpeg, jpg or png)", () => {
       test("Then, it should render the file's name as null", () => {
-        //----------------------
-        const onNavigate = (pathname) => {
-          document.body.innerHTML = ROUTES({ pathname });
-        };
-        //----------------------
-        Object.defineProperty(window, "localStorage", {
-          value: localStorageMock,
-        });
-        const user = JSON.stringify({
-          type: "Employee",
-        });
-        window.localStorage.setItem("user", user);
         //----------------------
         const html = NewBillUI();
         document.body.innerHTML = html;
@@ -96,7 +85,7 @@ describe("Given I am connected as an employee, on NewBill Page", () => {
         const newBill = new NewBill({
           document,
           onNavigate,
-          firestore: null,
+          firestore: { storage },
           localStorage: window.localStorage,
         });
         //----------------------
@@ -123,18 +112,6 @@ describe("Given I am connected as an employee, on NewBill Page", () => {
 
     describe("When I submit the form", () => {
       test("Then, it should render a NewBill", () => {
-        const onNavigate = (pathname) => {
-          document.body.innerHTML = ROUTES({ pathname });
-        };
-        //----------------------
-        Object.defineProperty(window, "localStorage", {
-          value: localStorageMock,
-        });
-        const user = JSON.stringify({
-          type: "Employee",
-          email: "rox-test@email.com",
-        });
-        window.localStorage.setItem("user", user);
         //----------------------
         const html = NewBillUI();
         document.body.innerHTML = html;

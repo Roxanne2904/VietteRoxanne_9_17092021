@@ -98,6 +98,66 @@ describe("Given I am connected as an Admin", () => {
       userEvent.click(icon3);
       expect(handleShowTickets3).toHaveBeenCalled();
     });
+    test("Then, if tickets list are already unfolding, it should close the list", () => {
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname });
+      };
+
+      Object.defineProperty(window, "localStorage", {
+        value: localStorageMock,
+      });
+      window.localStorage.setItem(
+        "user",
+        JSON.stringify({
+          type: "Employee",
+        })
+      );
+
+      const dashboard = new Dashboard({
+        document,
+        onNavigate,
+        firestore: null,
+        bills,
+        localStorage: window.localStorage,
+      });
+      const html = DashboardUI({ data: bills });
+
+      document.body.innerHTML = html;
+
+      const handleShowTickets1 = jest.fn((e) => {
+        dashboard.handleShowTickets(e, bills, 1);
+      });
+      const handleShowTickets2 = jest.fn((e) =>
+        dashboard.handleShowTickets(e, bills, 2)
+      );
+      const handleShowTickets3 = jest.fn((e) =>
+        dashboard.handleShowTickets(e, bills, 3)
+      );
+
+      const icon1 = screen.getByTestId("arrow-icon1");
+      const icon2 = screen.getByTestId("arrow-icon2");
+      const icon3 = screen.getByTestId("arrow-icon3");
+
+      const container1 = screen.getByTestId("bills-container1");
+      const container2 = screen.getByTestId("bills-container2");
+      const container3 = screen.getByTestId("bills-container3");
+
+      container1.dataset.open = "true";
+      container2.dataset.open = "true";
+      container3.dataset.open = "true";
+
+      icon1.addEventListener("click", handleShowTickets1);
+      userEvent.click(icon1);
+      expect(handleShowTickets1).toHaveBeenCalled();
+
+      icon2.addEventListener("click", handleShowTickets2);
+      userEvent.click(icon2);
+      expect(handleShowTickets2).toHaveBeenCalled();
+
+      icon3.addEventListener("click", handleShowTickets3);
+      userEvent.click(icon3);
+      expect(handleShowTickets3).toHaveBeenCalled();
+    });
   });
 
   describe("When I am on Dashboard page and I click on edit icon of a card", () => {

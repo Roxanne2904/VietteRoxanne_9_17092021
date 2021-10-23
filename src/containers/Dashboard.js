@@ -139,15 +139,32 @@ export default class {
   };
 
   handleShowTickets(e, bills, index) {
+    console.log(
+      `1). le counter est à ${this.counter} et l'index est à ${this.index}`
+    );
+    console.log(`---------------------`);
     if (this.counter === undefined || this.index !== index) this.counter = 0;
     if (this.index === undefined || this.index !== index) this.index = index;
-    if (this.counter % 2 === 0) {
+    console.log(
+      `2). le counter est à ${this.counter} et l'index est à ${this.index}`
+    );
+    console.log(`---------------------`);
+    console.log(`${this.counter} % 2 = ${this.counter % 2}`);
+    console.log(`---------------------`);
+    //---
+    const element = document.getElementById(
+      `status-bills-container${this.index}`
+    );
+    //au cas ou pour la condition : this.counter % 2 === 0
+    if (element.dataset.open === "false") {
+      element.dataset.open = "true";
       $(`#arrow-icon${this.index}`).css({ transform: "rotate(0deg)" });
       $(`#status-bills-container${this.index}`).html(
         cards(filteredBills(bills, getStatus(this.index)))
       );
       this.counter++;
     } else {
+      element.dataset.open = "false";
       $(`#arrow-icon${this.index}`).css({ transform: "rotate(90deg)" });
       $(`#status-bills-container${this.index}`).html("");
       this.counter++;

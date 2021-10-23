@@ -6,7 +6,7 @@ import "@testing-library/jest-dom";
 //---
 import { screen } from "@testing-library/dom";
 import VerticalLayout from "../views/VerticalLayout";
-import router from "../__mocks__/router.js";
+import router from "../__mocks__/router_mock.js";
 import { ROUTES_PATH } from "../constants/routes.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 // ----

@@ -24,9 +24,6 @@ const onNavigate = (pathname) => {
   document.body.innerHTML = ROUTES({ pathname });
 };
 // -----
-// window.
-// localStorage et location.hash
-// -----
 Object.defineProperty(window, "localStorage", {
   value: localStorageMock,
 });
