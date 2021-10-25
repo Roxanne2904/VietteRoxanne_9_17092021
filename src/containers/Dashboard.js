@@ -183,8 +183,8 @@ export default class {
   // not need to cover this function by tests
   /* istanbul ignore next */
   getBillsAllUsers = () => {
-    let errorDate; //variable ajouté;
-    let imageValid; //variable ajouté;
+    let errorDate; //RV:variable ajouté;
+    let imageValid; //RV:variable ajouté;
 
     if (this.firestore) {
       return this.firestore
@@ -197,6 +197,8 @@ export default class {
             date: doc.data().date,
             status: doc.data().status,
           }));
+          // -------------
+          // RV : on évite les bills avec des erreurs de date; la liste Valide peut s'ouvrir;
           errorDate = bills
             .map((bill) => {
               if (bill.date === "") {
@@ -212,6 +214,7 @@ export default class {
             bills.splice(indexOfError, 1);
           }
           // -------
+          // RV: on évite les images autre que jpeg, jpg ou png;
           imageValid = bills
             .filter((bill) => {
               if (bill.fileUrl !== null) {
@@ -228,7 +231,7 @@ export default class {
                 return true;
               }
             });
-          // -------
+
           bills = imageValid;
           // -------
           return bills;

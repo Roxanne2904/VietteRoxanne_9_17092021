@@ -66,8 +66,7 @@ _Given I am connected as an employee > Then I am on Bills's pages > Then Bills s
 - [x] Bills\_\_Container (getBills()), Now, Bills are sorted per dates from earliest to latest;
 
 - Notes:
-- datas retrieved : getBills() > file: Bills.js\_\_containers
-- datas displayed : rows(); et row(); files: BillsUI\_\_views
+- Le code rajouté pour trier les données est dans `getBills()`
 
 ---
 
@@ -81,6 +80,11 @@ _Given I am a user on Login's page > When I do fill fields in correct format and
 _Given I am a user on Login's page > When i do fill fields in correct format and I clicked on admin button Login in > Then I should renders RH dashboard's page_
 
 - [x] Login\_\_test: **PASS**
+
+- Notes:
+- La provenance du bug vient de `handleSubmitAdmin` dans le login/container;
+- ERROR = `` le document.querySelector(`input[data-testid="employee-email-input"]`) ``
+- VALID = `` le document.querySelector(`input[data-testid="admin-email-input"]`) ``
 
 ---
 
@@ -96,15 +100,11 @@ Si je me connecte à présent en tant qu'Admin, et que je clique sur le ticket c
 - [x] modal is displaying the image;
 - [x] Dashboard has to display name's file matching with the right form;
 
----
-
-[Bug Hunt] BillsView.
-
-\_Sur desktop large: Lorsque que l'on click sur l'image pour voir les factures, l'image dépasse de son conteneur\_
-
--**TO DO**
-
-- [x] Image had to be inside his container;
+- Notes:
+- Ajout d'une condition dans `handleChangeFile` dans NewBill/container;
+- Dans la partie Admin, pour éviter de voir 'les bills' déjà envoyées avec des images null:
+  > la liste valid ne s'ouvrait pas à cause d'une date non valid : Dashboard/container, `getBillsAllUsers()`
+  > pour éviter d'avoir des images autre que jpg, jpeg ou png : Dashboard/container, `getBillsAllUsers()`
 
 ---
 
@@ -113,12 +113,9 @@ Si je me connecte à présent en tant qu'Admin, et que je clique sur le ticket c
 
 \_Sur desktop large: Lorsque que l'on click sur l'image pour voir les factures, l'image dépasse de son conteneur\_
 
-\_Sur le Dashboard: les images qui ne sont pas en jpg, jpeg ou png ont été filtrées\_
-
 -**TO DO**
 
 - [x] Image had to be inside his container;
-- [x] Dashboard: Image had to be on jpeg, jpg or png;
 
 ---
 
@@ -130,5 +127,9 @@ Si je me connecte à présent en tant qu'Admin, et que je clique sur le ticket c
 -**TO DO**
 
 - [x] To be able to expand several lists, and search for tickets on both of them;
+
+- Notes:
+- dans `handleShowTickets` dashboard/container, grâce à `unbind()` on résoud le pb.
+- changement de la condition pour ouvrir les listes: cela évite un pb lorsque que l'on ouvre toute les liste en même temps;
 
 ---
