@@ -129,7 +129,7 @@ Si je me connecte à présent en tant qu'Admin, et que je clique sur le ticket c
 - [x] To be able to expand several lists, and search for tickets on both of them;
 
 - Notes:
-- dans `handleShowTickets` dashboard/container, grâce à `unbind()` on résoud le pb.
+- dans `handleShowTickets` dashboard/container, grâce à `.off()` on évite que `handleEditTickets` soit appelé x3 pour la première liste ouverte, si les trois ou deux sont ouvertes en même temps;
 - changement de la condition pour ouvrir les listes: cela évite un pb lorsque que l'on ouvre toute les liste en même temps;
 
 ---

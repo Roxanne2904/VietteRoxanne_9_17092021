@@ -92,9 +92,14 @@ export default class {
   };
 
   handleEditTicket(e, bill, bills) {
-    console.log(e);
     if (this.counter === undefined || this.id !== bill.id) this.counter = 0;
     if (this.id === undefined || this.id !== bill.id) this.id = bill.id;
+    console.log("--------------------");
+    console.log("--------------------");
+    console.log(`this counter % 2 = ${this.counter % 2}`);
+    console.log(
+      "{result: { 0: if path (open-bill), 1: else path (close-bill)}}"
+    );
     if (this.counter % 2 === 0) {
       bills.forEach((b) => {
         $(`#open-bill${b.id}`).css({ background: "#0D5AE5" });
@@ -156,6 +161,7 @@ export default class {
       `status-bills-container${this.index}`
     );
     //au cas ou pour la condition : this.counter % 2 === 0
+    // la condition : element.dataset.open === "false"
     if (element.dataset.open === "false") {
       element.dataset.open = "true";
       $(`#arrow-icon${this.index}`).css({ transform: "rotate(0deg)" });
@@ -172,11 +178,12 @@ export default class {
 
     bills.forEach((bill) => {
       $(`#open-bill${bill.id}`)
-        .unbind()
+        .off()
         .click((e) => {
           this.handleEditTicket(e, bill, bills);
         });
     });
+
     return bills;
   }
 
