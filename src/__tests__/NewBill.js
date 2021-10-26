@@ -9,16 +9,17 @@ import NewBill from "../containers/NewBill.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import { ROUTES } from "../constants/routes";
 import firebasePost from "../__mocks__/firebasePost.js";
+import { storage } from "../__mocks__/firestore-handleChangeFile.js";
 import BillsUI from "../views/BillsUI.js";
 //---
-const storage = {
-  ref: () => storage,
-  put: async () => {
-    return {
-      ref: { getDownloadURL: () => "https//test-rox.com" },
-    };
-  },
-};
+// const storage = {
+//   ref: () => storage,
+//   put: async () => {
+//     return {
+//       ref: { getDownloadURL: () => "https//test-rox.com" },
+//     };
+//   },
+// };
 const onNavigate = (pathname) => {
   document.body.innerHTML = ROUTES({ pathname });
 };

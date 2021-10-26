@@ -1,15 +1,14 @@
 import { ROUTES, ROUTES_PATH } from "../constants/routes.js";
 import Bills from "../containers/Bills.js";
-import { bills } from "../fixtures/bills.js";
-//
-const storage = {
-  bills: () => storage,
-  get: async () => {
-    return {
-      docs: bills,
-    };
-  },
-};
+import { storage } from "..//__mocks__/firestore-getBills.js";
+// const storage = {
+//   bills: () => storage,
+//   get: async () => {
+//     return {
+//       docs: bills,
+//     };
+//   },
+// };
 //
 export default () => {
   const rootDiv = document.getElementById("root");
