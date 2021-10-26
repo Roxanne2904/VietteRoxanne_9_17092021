@@ -9,6 +9,7 @@ export const filteredBills = (data, status, jest) => {
   return data && data.length
     ? data.filter((bill) => {
         let selectCondition;
+
         // in jest environment
         if (typeof jest !== "undefined") {
           selectCondition = bill.status === status;
