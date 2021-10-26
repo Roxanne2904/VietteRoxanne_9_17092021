@@ -7,11 +7,10 @@ import "@testing-library/jest-dom";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import { fireEvent, screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-import LoadingPage from "./LoadingPage.js";
-import ErrorPage from "./ErrorPage.js";
 import BillsUI from "../views/BillsUI.js";
 import BillsContainer from "../containers/Bills.js";
 import firebaseGet from "../__mocks__/firebaseGet.js";
+import router from "../__mocks__/router_mock.js";
 import { ROUTES } from "../constants/routes";
 import { ROUTES_PATH } from "../constants/routes.js";
 import { bills } from "../fixtures/bills.js";
@@ -36,27 +35,38 @@ window.location.hash = ROUTES_PATH.Bills;
 // -----
 
 describe("Given I am connected as an employee", () => {
-  describe("When I'm onload, waiting for employee's page", () => {
-    test("Then, it should display 'Loading...'", () => {
-      const html = BillsUI({ loading: LoadingPage });
+  describe("When I am on Bill's page but it is loading", () => {
+    test("Then, Loading page should be rendered", () => {
+      const html = BillsUI({ loading: true });
       document.body.innerHTML = html;
-      let element = screen.getByTestId("load");
-      expect(element).toHaveTextContent("Loading...");
+      expect(screen.getAllByText("Loading...")).toBeTruthy();
     });
   });
   //__________________________________________________________________________
   //__________________________________________________________________________
-  describe("When, there's an error", () => {
-    test("Then, instead of displayed bills, it should display an error's message", () => {
-      const html = BillsUI({ error: ErrorPage });
+  describe("When I am on Dashboard page but back-end send an error message", () => {
+    test("Then, Error page should be rendered", () => {
+      const html = BillsUI({ error: "some error message" });
       document.body.innerHTML = html;
-      let element = screen.getByTestId("error-title");
-      expect(element).toHaveTextContent("Erreur");
+      expect(screen.getAllByText("Erreur")).toBeTruthy();
     });
   });
   //__________________________________________________________________________
   //__________________________________________________________________________
-  describe("When I am on Bills Page, there are NOT bills", () => {
+  describe("When I am on Bills Page", () => {
+    test("Then bill icon in vertical layout should be highlighted", () => {
+      //--------------------------------
+      document.body.innerHTML = `<div id="root"></div>`;
+      //--------------------------------
+      router();
+      //--------------------------------
+      let element = screen.getByTestId("icon-window");
+      expect(element).toHaveClass("active-icon");
+    });
+  });
+  //__________________________________________________________________________
+  //__________________________________________________________________________
+  describe("When I am on Bills Page, there are NO bills", () => {
     describe("When, there is a button, and I click on it", () => {
       test("Then, it should redirect me to NewBills's page ", () => {
         //--------------------------------
