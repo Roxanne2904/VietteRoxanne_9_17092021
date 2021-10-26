@@ -1,8 +1,18 @@
+/**
+ * @jest-environment jsdom
+ */
+
+import "@testing-library/jest-dom";
+// ---
 import { fireEvent, screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import DashboardFormUI from "../views/DashboardFormUI.js";
 import DashboardUI from "../views/DashboardUI.js";
-import Dashboard, { filteredBills, cards } from "../containers/Dashboard.js";
+import Dashboard, {
+  filteredBills,
+  cards,
+  card,
+} from "../containers/Dashboard.js";
 import { ROUTES } from "../constants/routes";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import firebaseGet from "../__mocks__/firebaseGet.js";
@@ -10,7 +20,6 @@ import { bills } from "../fixtures/bills";
 // -----
 $.fn.modal = jest.fn();
 // -----
-
 describe("Given I am connected as an Admin", () => {
   describe("When I am on Dashboard page, there are bills, and there is one pending", () => {
     test("Then, filteredBills by pending status should return 1 bill", () => {
@@ -46,7 +55,7 @@ describe("Given I am connected as an Admin", () => {
   });
 
   describe("When I am on Dashboard page and I click on arrow", () => {
-    test("Then, tickets list should be unfolding, and cars should contain first and lastname", () => {
+    test("Then, tickets list should be unfolding, and cards should be displayed", () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname });
       };
@@ -157,6 +166,33 @@ describe("Given I am connected as an Admin", () => {
       icon3.addEventListener("click", handleShowTickets3);
       userEvent.click(icon3);
       expect(handleShowTickets3).toHaveBeenCalled();
+    });
+  });
+
+  describe("When I am on Dashboard, list has been unfolded and cards has been displayed", () => {
+    test("Then, it should display first and last name on cards, taken from email's data", () => {
+      //----
+      bills.forEach((bill) => {
+        const html = card(bill);
+        document.body.innerHTML = html;
+
+        const firstAndLastNames = bill.email.split("@")[0];
+        const firstName = firstAndLastNames.includes(".")
+          ? firstAndLastNames.split(".")[0]
+          : "";
+        const lastName = firstAndLastNames.includes(".")
+          ? firstAndLastNames.split(".")[1]
+          : firstAndLastNames;
+
+        const innerName = screen.getByTestId("firstAndLastName");
+        if (firstAndLastNames.includes(".")) {
+          console.log(html);
+          expect(innerName).toHaveTextContent(`${firstName} ${lastName}`);
+        } else {
+          console.log(html);
+          expect(innerName).toHaveTextContent(`${firstAndLastNames}`);
+        }
+      });
     });
   });
 

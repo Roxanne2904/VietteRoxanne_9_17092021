@@ -12,7 +12,7 @@ export let bills = [
     date: "2004-04-04",
     amount: 400,
     commentAdmin: "ok",
-    email: "a@a",
+    email: "edell.chou@a",
     pct: 20,
   },
   {
@@ -24,7 +24,7 @@ export let bills = [
     commentary: "plop",
     pct: 20,
     type: "Transports",
-    email: "a@a",
+    email: "miyaha.chou@a",
     fileUrl:
       "https://firebasestorage.googleapis.com/v0/b/billable-677b6.a…61.jpeg?alt=media&token=7685cd61-c112-42bc-9929-8a799bb82d8b",
     date: "2001-01-01",
@@ -34,7 +34,7 @@ export let bills = [
   {
     id: "UIUZtnPQvnbFnB0ozvJh",
     name: "test3",
-    email: "a@a",
+    email: "geralt.rivia@a",
     type: "Services en ligne",
     vat: "60",
     pct: 20,

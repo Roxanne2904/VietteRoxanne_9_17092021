@@ -119,14 +119,15 @@ describe("Given I am connected as an employee", () => {
           billsContainer.handleClickIconEye(icon);
         });
         //--------------------------------
-        const icons = screen.getAllByTestId("icon-eye");
-        expect(icons).toHaveLength(4);
+        const iconEye = screen.getAllByTestId("icon-eye");
+        expect(iconEye).toHaveLength(4);
         const modaleFile = screen.getByTestId("modaleFile");
 
-        icons.forEach((icon) => {
+        iconEye.forEach((icon) => {
           icon.addEventListener("click", (e) => {
             handleClickIconEyeMock(icon);
           });
+          //---
           userEvent.click(icon);
           const billUrl = icon.getAttribute("data-bill-url").split("?")[0];
           console.log(modaleFile.className);

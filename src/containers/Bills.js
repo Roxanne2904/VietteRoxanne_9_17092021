@@ -10,14 +10,17 @@ export default class {
     const buttonNewBill = document.querySelector(
       `button[data-testid="btn-new-bill"]`
     );
-    /* istanbul ignore next */
+
     if (buttonNewBill)
       buttonNewBill.addEventListener("click", this.handleClickNewBill);
     const iconEye = document.querySelectorAll(`div[data-testid="icon-eye"]`);
-    /* istanbul ignore next */
-    if (iconEye)
+
+    /* istanbul ignore else */ if (iconEye)
       iconEye.forEach((icon) => {
-        icon.addEventListener("click", (e) => this.handleClickIconEye(icon));
+        icon.addEventListener(
+          "click",
+          /* istanbul ignore next */ (e) => this.handleClickIconEye(icon)
+        );
       });
     new Logout({ document, localStorage, onNavigate });
   }
@@ -55,7 +58,7 @@ export default class {
           const bills = snapshot.docs
             .map((doc) => {
               try {
-                console.log(doc.data());
+                // console.log(doc.data());
                 return {
                   ...doc.data(),
                   // date: formatDate(doc.data().date),
@@ -80,7 +83,7 @@ export default class {
             .sort(function (a, b) {
               let dateA = new Date(a.date).getTime();
               let dateB = new Date(b.date).getTime();
-              console.log(dateA);
+              // console.log(dateA);
               // console.log(dateB);
               // console.log(dateA > dateB ? 1 : -1);
               return dateA < dateB ? 1 : -1;
@@ -93,7 +96,7 @@ export default class {
             });
           // ..................
 
-          console.log("length", bills.length);
+          // console.log("length", bills.length);
           return bills;
         })
         .catch((error) => error);

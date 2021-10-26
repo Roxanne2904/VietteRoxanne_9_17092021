@@ -37,7 +37,7 @@ export const card = (bill) => {
     bill.id
   }' data-testid='open-bill${bill.id}'>
     <div class='bill-card-name-container'>
-      <div class='bill-card-name'> ${firstName} ${lastName} </div>
+      <div class='bill-card-name' data-testid ="firstAndLastName"> ${firstName} ${lastName} </div>
       <span class='bill-card-grey'> ... </span>
     </div>
     <div class='name-price-container'>
@@ -87,7 +87,9 @@ export default class {
       .html(
         `<div style='text-align: center;'><img width=${imgWidth} src=${billUrl} /></div>`
       );
-    if (typeof $("#modaleFileAdmin1").modal === "function")
+    /* istanbul ignore else */ if (
+      typeof $("#modaleFileAdmin1").modal === "function"
+    )
       $("#modaleFileAdmin1").modal("show");
   };
 
@@ -148,8 +150,16 @@ export default class {
       `1). le counter est à ${this.counter} et l'index est à ${this.index}`
     );
     console.log(`---------------------`);
-    if (this.counter === undefined || this.index !== index) this.counter = 0;
-    if (this.index === undefined || this.index !== index) this.index = index;
+    /* istanbul ignore else */ if (
+      this.counter === undefined ||
+      this.index !== index
+    )
+      this.counter = 0;
+    /* istanbul ignore else */ if (
+      this.index === undefined ||
+      this.index !== index
+    )
+      this.index = index;
     console.log(
       `2). le counter est à ${this.counter} et l'index est à ${this.index}`
     );
