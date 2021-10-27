@@ -61,26 +61,31 @@ export default class NewBill {
       'e.target.querySelector(`input[data-testid="datepicker"]`).value',
       e.target.querySelector(`input[data-testid="datepicker"]`).value
     );
-    const email = JSON.parse(localStorage.getItem("user")).email;
-    const bill = {
-      email,
-      type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
-      name: e.target.querySelector(`input[data-testid="expense-name"]`).value,
-      amount: parseInt(
-        e.target.querySelector(`input[data-testid="amount"]`).value
-      ),
-      date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
-      vat: e.target.querySelector(`input[data-testid="vat"]`).value,
-      pct:
-        parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) ||
-        20,
-      commentary: e.target.querySelector(`textarea[data-testid="commentary"]`)
-        .value,
-      fileUrl: this.fileUrl,
-      fileName: this.fileName,
-      status: "pending",
-    };
-    return this.createBill(bill), this.onNavigate(ROUTES_PATH["Bills"]);
+    if (this.fileName !== null) {
+      const email = JSON.parse(localStorage.getItem("user")).email;
+      const bill = {
+        email,
+        type: e.target.querySelector(`select[data-testid="expense-type"]`)
+          .value,
+        name: e.target.querySelector(`input[data-testid="expense-name"]`).value,
+        amount: parseInt(
+          e.target.querySelector(`input[data-testid="amount"]`).value
+        ),
+        date: e.target.querySelector(`input[data-testid="datepicker"]`).value,
+        vat: e.target.querySelector(`input[data-testid="vat"]`).value,
+        pct:
+          parseInt(e.target.querySelector(`input[data-testid="pct"]`).value) ||
+          20,
+        commentary: e.target.querySelector(`textarea[data-testid="commentary"]`)
+          .value,
+        fileUrl: this.fileUrl,
+        fileName: this.fileName,
+        status: "pending",
+      };
+      return this.createBill(bill), this.onNavigate(ROUTES_PATH["Bills"]);
+    } else {
+      return this.onNavigate(ROUTES_PATH["NewBill"]);
+    }
   };
 
   /* istanbul ignore next */

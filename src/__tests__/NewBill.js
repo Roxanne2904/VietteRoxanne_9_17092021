@@ -9,17 +9,9 @@ import NewBill from "../containers/NewBill.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import { ROUTES } from "../constants/routes";
 import firebasePost from "../__mocks__/firebasePost.js";
-import { storage } from "../__mocks__/firestore-handleChangeFile.js";
+import { firestore_mock } from "../__mocks__/firestore_mock.js";
 import BillsUI from "../views/BillsUI.js";
 //---
-// const storage = {
-//   ref: () => storage,
-//   put: async () => {
-//     return {
-//       ref: { getDownloadURL: () => "https//test-rox.com" },
-//     };
-//   },
-// };
 const onNavigate = (pathname) => {
   document.body.innerHTML = ROUTES({ pathname });
 };
@@ -34,7 +26,9 @@ const user = JSON.stringify({
 });
 window.localStorage.setItem("user", user);
 //---
-describe("Given I am connected as an employee, on NewBill Page", () => {
+//__________________________________________________________________________
+//__________________________________________________________________________
+describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page ", () => {
     test("Then the NewBill's page should be displayed", () => {
       //----------------------
@@ -42,7 +36,24 @@ describe("Given I am connected as an employee, on NewBill Page", () => {
       document.body.innerHTML = html;
       //----------------------
       const title = screen.getByTestId("title");
+      const inputType = screen.getByTestId("expense-type");
+      const inputName = screen.getByTestId("expense-name");
+      const inputDate = screen.getByTestId("datepicker");
+      const inputAmount = screen.getByTestId("amount");
+      const inputVat = screen.getByTestId("vat");
+      const inputPct = screen.getByTestId("pct");
+      const inputFile = screen.getByTestId("file");
+
       expect(title).toHaveTextContent("Envoyer une note de frais");
+      expect(inputType).toHaveClass("form-control blue-border", {
+        exact: true,
+      });
+      expect(inputName).toHaveAttribute("type", "text");
+      expect(inputDate).toHaveAttribute("type", "date");
+      expect(inputAmount).toHaveAttribute("type", "number");
+      expect(inputVat).toHaveAttribute("type", "number");
+      expect(inputPct).toHaveAttribute("type", "number");
+      expect(inputFile).toHaveAttribute("type", "file");
     });
 
     describe("When I upload a correct file (jpeg,jpg or png)", () => {
@@ -54,7 +65,7 @@ describe("Given I am connected as an employee, on NewBill Page", () => {
         const newBill = new NewBill({
           document,
           onNavigate,
-          firestore: { storage },
+          firestore: firestore_mock,
           localStorage: window.localStorage,
         });
         //----------------------
@@ -86,7 +97,7 @@ describe("Given I am connected as an employee, on NewBill Page", () => {
         const newBill = new NewBill({
           document,
           onNavigate,
-          firestore: { storage },
+          firestore: firestore_mock,
           localStorage: window.localStorage,
         });
         //----------------------
@@ -112,27 +123,90 @@ describe("Given I am connected as an employee, on NewBill Page", () => {
     });
 
     describe("When I submit the form", () => {
-      test("Then, it should render a NewBill", () => {
-        //----------------------
-        const html = NewBillUI();
-        document.body.innerHTML = html;
-        //----------------------
-        const newBill = new NewBill({
-          document,
-          onNavigate,
-          firestore: null,
-          localStorage: window.localStorage,
-        });
-        const submitBtn = screen.getByTestId("form-new-bill");
-        const handleSubmitMock = jest.fn((e) => {
-          newBill.handleSubmit(e);
-        });
-        const input = (screen.getByTestId("expense-type").value = "Transport");
+      describe("when, I chose a correct file (jpeg, jpg or png)", () => {
+        test("Then, it should create a NewBill, and redirect me to Bill's page", () => {
+          //----------------------
+          const html = NewBillUI();
+          document.body.innerHTML = html;
+          //----------------------
+          const newBill = new NewBill({
+            document,
+            onNavigate,
+            firestore: firestore_mock,
+            localStorage: window.localStorage,
+          });
+          //-----
+          const submitBtn = screen.getByTestId("form-new-bill");
+          const handleSubmitMock = jest.fn((e) => {
+            newBill.handleSubmit(e);
+          });
+          //-----
+          const inputFile = screen.getByTestId("file");
+          const handleChangeFileMock = jest.fn((e) => {
+            newBill.handleChangeFile(e);
+          });
 
-        submitBtn.addEventListener("submit", handleSubmitMock);
-        fireEvent.submit(submitBtn);
-        expect(input).toBe("Transport");
-        expect(handleSubmitMock).not.toHaveBeenCalledTimes(0);
+          inputFile.addEventListener("change", handleChangeFileMock);
+          fireEvent.change(inputFile, {
+            target: {
+              files: [
+                new File(["<(0.0)>"], "test.jpeg", { type: "image/jpeg" }),
+              ],
+            },
+          });
+
+          newBill.fileName = inputFile.files[0].name;
+
+          submitBtn.addEventListener("submit", handleSubmitMock);
+          fireEvent.submit(submitBtn);
+
+          expect(handleSubmitMock).toHaveBeenCalledTimes(1);
+          expect(screen.getAllByText("Mes notes de frais")).toBeTruthy();
+        });
+      });
+      describe("when, I chose a incorrect file (.txt for example)", () => {
+        test("Then, it should keep me at NewBill's Page", () => {
+          //----------------------
+          const html = NewBillUI();
+          document.body.innerHTML = html;
+          //----------------------
+          const newBill = new NewBill({
+            document,
+            onNavigate,
+            firestore: firestore_mock,
+            localStorage: window.localStorage,
+          });
+          //-----
+          const submitBtn = screen.getByTestId("form-new-bill");
+          const handleSubmitMock = jest.fn((e) => {
+            newBill.handleSubmit(e);
+          });
+          //-----
+          const inputFile = screen.getByTestId("file");
+          const handleChangeFileMock = jest.fn((e) => {
+            newBill.handleChangeFile(e);
+          });
+
+          inputFile.addEventListener("change", handleChangeFileMock);
+          fireEvent.change(inputFile, {
+            target: {
+              files: [new File(["<(0.0)>"], "test.txt", { type: "text/txt" })],
+            },
+          });
+
+          const array = ["jpeg", "jpg", "png"];
+          if (array.includes(inputFile.files[0].name)) {
+            newBill.fileName = inputFile.files[0].name;
+          } else {
+            newBill.fileName = null;
+          }
+
+          submitBtn.addEventListener("submit", handleSubmitMock);
+          fireEvent.submit(submitBtn);
+
+          expect(handleSubmitMock).toHaveBeenCalledTimes(1);
+          expect(screen.getAllByText("Envoyer une note de frais")).toBeTruthy();
+        });
       });
     });
   });

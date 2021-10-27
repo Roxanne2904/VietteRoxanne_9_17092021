@@ -33,7 +33,8 @@ const user = JSON.stringify({
 window.localStorage.setItem("user", user);
 window.location.hash = ROUTES_PATH.Bills;
 // -----
-
+//__________________________________________________________________________
+//__________________________________________________________________________
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bill's page but it is loading", () => {
     test("Then, Loading page should be rendered", () => {
@@ -111,7 +112,7 @@ describe("Given I am connected as an employee", () => {
     });
     //__________________________________________________________________________
     //__________________________________________________________________________
-    describe("When, I click on blue eyes to see one of them", () => {
+    describe("When, I click on one of the eyes to have a preview", () => {
       test("Then, it should open the modal", () => {
         //--------------------------------
         const billsContainer = new BillsContainer({

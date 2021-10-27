@@ -1,15 +1,7 @@
 import { ROUTES, ROUTES_PATH } from "../constants/routes.js";
 import Bills from "../containers/Bills.js";
-import { storage } from "..//__mocks__/firestore-getBills.js";
-// const storage = {
-//   bills: () => storage,
-//   get: async () => {
-//     return {
-//       docs: bills,
-//     };
-//   },
-// };
-//
+import { firestore_mock } from "../__mocks__/firestore_mock.js";
+
 export default () => {
   const rootDiv = document.getElementById("root");
   rootDiv.innerHTML = ROUTES({ pathname: window.location.pathname });
@@ -69,7 +61,7 @@ export default () => {
       const bills = new Bills({
         document,
         onNavigate,
-        firestore: storage,
+        firestore: firestore_mock,
         localStorage,
       });
       bills
