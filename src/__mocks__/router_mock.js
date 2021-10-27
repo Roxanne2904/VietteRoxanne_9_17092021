@@ -1,5 +1,6 @@
 import { ROUTES, ROUTES_PATH } from "../constants/routes.js";
 import Bills from "../containers/Bills.js";
+import NewBill from "../containers/NewBill.js";
 import { firestore_mock } from "../__mocks__/firestore_mock.js";
 
 export default () => {
@@ -34,6 +35,18 @@ export default () => {
         .catch((error) => {
           rootDiv.innerHTML = ROUTES({ pathname, error });
         });
+    } else if (pathname === ROUTES_PATH["NewBill"]) {
+      rootDiv.innerHTML = ROUTES({ pathname, loading: true });
+      new NewBill({
+        document,
+        onNavigate,
+        firestore,
+        localStorage,
+      });
+      const divIcon1 = document.getElementById("layout-icon1");
+      const divIcon2 = document.getElementById("layout-icon2");
+      divIcon1.classList.remove("active-icon");
+      divIcon2.classList.add("active-icon");
     }
   };
 
@@ -77,6 +90,21 @@ export default () => {
         .catch((error) => {
           rootDiv.innerHTML = ROUTES({ pathname: window.location.hash, error });
         });
+    } else if (window.location.hash === ROUTES_PATH["NewBill"]) {
+      rootDiv.innerHTML = ROUTES({
+        pathname: window.location.hash,
+        loading: true,
+      });
+      new NewBill({
+        document,
+        onNavigate,
+        firestore: firestore_mock,
+        localStorage,
+      });
+      const divIcon1 = document.getElementById("layout-icon1");
+      const divIcon2 = document.getElementById("layout-icon2");
+      divIcon1.classList.remove("active-icon");
+      divIcon2.classList.add("active-icon");
     }
   }
   return null;

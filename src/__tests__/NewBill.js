@@ -8,8 +8,10 @@ import NewBillUI from "../views/NewBillUI.js";
 import NewBill from "../containers/NewBill.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import { ROUTES } from "../constants/routes";
+import { ROUTES_PATH } from "../constants/routes.js";
 import firebasePost from "../__mocks__/firebasePost.js";
 import { firestore_mock } from "../__mocks__/firestore_mock.js";
+import router from "../__mocks__/router_mock.js";
 import BillsUI from "../views/BillsUI.js";
 //---
 const onNavigate = (pathname) => {
@@ -25,11 +27,21 @@ const user = JSON.stringify({
   email: "rox-test@email.com",
 });
 window.localStorage.setItem("user", user);
+window.location.hash = ROUTES_PATH.NewBill;
 //---
 //__________________________________________________________________________
 //__________________________________________________________________________
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page ", () => {
+    test("Then, newBill icon in vertical layout should be highlighted", () => {
+      //--------------------------------
+      document.body.innerHTML = `<div id="root"></div>`;
+      //--------------------------------
+      router();
+      //--------------------------------
+      let element = screen.getByTestId("icon-mail");
+      expect(element).toHaveClass("active-icon");
+    });
     test("Then the NewBill's page should be displayed", () => {
       //----------------------
       const html = NewBillUI();
