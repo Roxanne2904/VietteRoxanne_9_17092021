@@ -10,10 +10,11 @@ import userEvent from "@testing-library/user-event";
 import BillsUI from "../views/BillsUI.js";
 import BillsContainer from "../containers/Bills.js";
 import firebaseGet from "../__mocks__/firebaseGet.js";
-import router from "../__mocks__/router_mock.js";
+import Router from "../app/Router.js";
 import { ROUTES } from "../constants/routes";
 import { ROUTES_PATH } from "../constants/routes.js";
 import { bills } from "../fixtures/bills.js";
+import Firestore from "../app/Firestore";
 // -----
 $.fn.modal = jest.fn();
 // -----
@@ -59,7 +60,10 @@ describe("Given I am connected as an employee", () => {
       //--------------------------------
       document.body.innerHTML = `<div id="root"></div>`;
       //--------------------------------
-      router();
+      Firestore.bills = () => {
+        return bills, { get: async () => {} };
+      };
+      Router();
       //--------------------------------
       let element = screen.getByTestId("icon-window");
       expect(element).toHaveClass("active-icon");

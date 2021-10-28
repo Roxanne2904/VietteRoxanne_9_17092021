@@ -11,7 +11,7 @@ import { ROUTES } from "../constants/routes";
 import { ROUTES_PATH } from "../constants/routes.js";
 import firebasePost from "../__mocks__/firebasePost.js";
 import { firestore_mock } from "../__mocks__/firestore_mock.js";
-import router from "../__mocks__/router_mock.js";
+import Router from "../app/Router.js";
 import BillsUI from "../views/BillsUI.js";
 //---
 const onNavigate = (pathname) => {
@@ -37,7 +37,7 @@ describe("Given I am connected as an employee", () => {
       //--------------------------------
       document.body.innerHTML = `<div id="root"></div>`;
       //--------------------------------
-      router();
+      Router();
       //--------------------------------
       let element = screen.getByTestId("icon-mail");
       expect(element).toHaveClass("active-icon");
@@ -229,10 +229,26 @@ describe("Given I am connected as an employee", () => {
 describe("Given I am a user connected as an Employee", () => {
   describe("When I have just created a newBill, and I Have been redirected to Bill's page", () => {
     test("Then, fetches bills included the new one, from mock API POST", async () => {
+      //---
+      const obj = {
+        email: "test@mail.fr",
+        type: "Transport",
+        name: "Vol Paris-Brasilia",
+        amount: 1000,
+        vat: 70,
+        pct: 20,
+        commentary: "hello :D",
+        fileUrl:
+          "https://firebasestorage.googleapis.com/v0/b/bill-rox.jpg?alt=media&token=c1640e12-a24b-4b11-ae52-529112e9602a",
+        fileName: "bill-rox.jpg",
+        status: "pending",
+      };
+      //---
       const getSpy = jest.spyOn(firebasePost, "post");
-      const bills = await firebasePost.post();
+      const bill = await firebasePost.post(obj);
+      console.log(bill);
       expect(getSpy).toHaveBeenCalledTimes(1);
-      expect(bills.newDatas.length).toBe(5);
+      expect(bill.newData.length).toBe(1);
     });
     test("Then, fetches bills from an API and fails with 404 message error", async () => {
       firebasePost.post.mockImplementationOnce(() =>
