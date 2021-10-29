@@ -68,6 +68,7 @@ describe("Given I am connected as an employee", () => {
       expect(inputFile).toHaveAttribute("type", "file");
     });
 
+    // soutenance test
     describe("When I upload a correct file (jpeg,jpg or png)", () => {
       test("Then, it should render the file's name", () => {
         //----------------------
@@ -94,7 +95,7 @@ describe("Given I am connected as an employee", () => {
             files: [new File(["<(0.0)>"], "test.jpeg", { type: "image/jpeg" })],
           },
         });
-
+        expect(inputFile.files[0].name).toBe("test.jpeg");
         expect(inputFile.files[0].name.endsWith("jpeg")).toBeTruthy();
         expect(handleChangeFileMock).toHaveBeenCalled();
       });
@@ -228,7 +229,7 @@ describe("Given I am connected as an employee", () => {
 //----
 describe("Given I am a user connected as an Employee", () => {
   describe("When I have just created a newBill, and I Have been redirected to Bill's page", () => {
-    test("Then, fetches bills included the new one, from mock API POST", async () => {
+    test("Then, new bill is created, from mock API POST", async () => {
       //---
       const obj = {
         email: "test@mail.fr",
@@ -250,7 +251,7 @@ describe("Given I am a user connected as an Employee", () => {
       expect(getSpy).toHaveBeenCalledTimes(1);
       expect(bill.newData.length).toBe(1);
     });
-    test("Then, fetches bills from an API and fails with 404 message error", async () => {
+    test("Then, new bill is created, from an API and fails with 404 message error", async () => {
       firebasePost.post.mockImplementationOnce(() =>
         Promise.reject(new Error("Erreur 404"))
       );
@@ -259,7 +260,7 @@ describe("Given I am a user connected as an Employee", () => {
       const message = await screen.getByText(/Erreur 404/);
       expect(message).toBeTruthy();
     });
-    test("Then, fetches messages from an API and fails with 500 message error", async () => {
+    test("Then, new bill is created, from an API and fails with 500 message error", async () => {
       firebasePost.post.mockImplementationOnce(() =>
         Promise.reject(new Error("Erreur 500"))
       );

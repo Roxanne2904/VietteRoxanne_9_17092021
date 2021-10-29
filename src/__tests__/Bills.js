@@ -70,9 +70,10 @@ describe("Given I am connected as an employee", () => {
     });
   });
   //__________________________________________________________________________
+  //soutenance test
   //__________________________________________________________________________
-  describe("When I am on Bills Page, there are NO bills", () => {
-    describe("When, there is a button, and I click on it", () => {
+  describe("When I am on Bills Page and there are NO bills", () => {
+    describe(`When, I click on "Nouvelle note de frais" `, () => {
       test("Then, it should redirect me to NewBills's page ", () => {
         //--------------------------------
         const billsContainer = new BillsContainer({
@@ -101,7 +102,7 @@ describe("Given I am connected as an employee", () => {
   });
   //__________________________________________________________________________
   //__________________________________________________________________________
-  describe("When I am on Bills Page, there are bills", () => {
+  describe("When I am on Bills Page and there are bills", () => {
     test("Then bills should be ordered from earliest to latest", () => {
       const html = BillsUI({ data: bills });
       document.body.innerHTML = html;
@@ -145,7 +146,6 @@ describe("Given I am connected as an employee", () => {
           //---
           userEvent.click(icon);
           const billUrl = icon.getAttribute("data-bill-url").split("?")[0];
-          console.log(modaleFile.className);
           expect(modaleFile.innerHTML.includes(billUrl)).toBeTruthy();
           expect(handleClickIconEyeMock).toHaveBeenCalled();
         });
