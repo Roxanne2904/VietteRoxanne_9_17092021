@@ -1,13 +1,12 @@
-import VerticalLayout from './VerticalLayout.js'
+import VerticalLayout from "./VerticalLayout.js";
 
 export default () => {
-
-  return (`
+  return `
     <div class='layout'>
       ${VerticalLayout(120)}
       <div class='content'>
         <div class='content-header'>
-          <div class='content-title'> Envoyer une note de frais </div>
+          <div class='content-title' data-testid="title"> Envoyer une note de frais </div>
         </div>
         <div class="form-newbill-container content-inner">
           <form data-testid="form-new-bill">
@@ -53,7 +52,7 @@ export default () => {
                     <label for="commentary" class="bold-label">Commentaire</label>
                     <textarea class="form-control blue-border" data-testid="commentary" rows="3"></textarea>
                   </div>
-                  <div class="col-half">
+                  <div class="col-half" id="block-inputFile" data-error="seule les images, jpeg, jpg et png sont autorisées" data-error-visible="false">
                     <label for="file" class="bold-label">Justificatif</label>
                     <input required type="file" class="form-control blue-border" data-testid="file" />
                   </div>
@@ -62,7 +61,7 @@ export default () => {
             <div class="row">
               <div class="col-md-6">
                 <div class="col-half">
-                  <button type="submit" id='btn-send-bill' class="btn btn-primary">Envoyer</button>
+                  <button type="submit" id='btn-send-bill' class="btn btn-primary" data-testid="submit">Envoyer</button>
                 </div>
               </div>
             </div>
@@ -70,5 +69,5 @@ export default () => {
         </div>
       </div>
     </div>
-  `)
-}
+  `;
+};

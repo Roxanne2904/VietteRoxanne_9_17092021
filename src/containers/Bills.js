@@ -10,12 +10,17 @@ export default class {
     const buttonNewBill = document.querySelector(
       `button[data-testid="btn-new-bill"]`
     );
+
     if (buttonNewBill)
       buttonNewBill.addEventListener("click", this.handleClickNewBill);
     const iconEye = document.querySelectorAll(`div[data-testid="icon-eye"]`);
-    if (iconEye)
+
+    /* istanbul ignore else */ if (iconEye)
       iconEye.forEach((icon) => {
-        icon.addEventListener("click", (e) => this.handleClickIconEye(icon));
+        icon.addEventListener(
+          "click",
+          /* istanbul ignore next */ (e) => this.handleClickIconEye(icon)
+        );
       });
     new Logout({ document, localStorage, onNavigate });
   }
@@ -26,7 +31,11 @@ export default class {
 
   handleClickIconEye = (icon) => {
     const billUrl = icon.getAttribute("data-bill-url");
-    const imgWidth = Math.floor($("#modaleFile").width() * 0.5);
+
+    //Viette Roxanne
+    const imgWidth = Math.floor($("#modaleFile").width() * 0.4);
+    // before change
+    // const imgWidth = Math.floor($("#modaleFile").width() * 0.5);
     $("#modaleFile")
       .find(".modal-body")
       .html(
@@ -36,6 +45,7 @@ export default class {
   };
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   getBills = () => {
     const userEmail = localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user")).email
@@ -65,6 +75,10 @@ export default class {
               }
             })
             .filter((bill) => bill.email === userEmail)
+
+            //Viette Roxanne
+            // ..................
+            //code added to sort dates
             .sort(function (a, b) {
               let dateA = new Date(a.date).getTime();
               let dateB = new Date(b.date).getTime();
@@ -74,13 +88,15 @@ export default class {
               return dateA < dateB ? 1 : -1;
             })
             .map((data) => {
+              
               return {
                 ...data,
                 date: formatDate(data.date),
               };
             });
-          // console.log(bills);
-          console.log("length", bills.length);
+          // ..................
+
+          // console.log("length", bills.length);
           return bills;
         })
         .catch((error) => error);
