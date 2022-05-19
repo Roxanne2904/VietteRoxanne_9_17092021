@@ -6,6 +6,7 @@ forker ce repository puis cloner le en local:
 ```
 $ git clone https://github.com/Roxanne2904/VietteRoxanne_9_17092021.git
 ```
+```
 $ cd VietteRoxanne_9_17092021
 ```
 Installez les packages npm (décrits dans `package.json`) :
@@ -13,7 +14,9 @@ Installez les packages npm (décrits dans `package.json`) :
 ```
 $ npm install
 ```
+
 Installez live-server pour lancer un serveur local :
+
 ```
 $ npm install -g live-server
 ```
