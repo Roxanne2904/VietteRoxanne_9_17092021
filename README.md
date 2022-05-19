@@ -1,5 +1,5 @@
 ## Le déploiement du projet sur Netlify
-- [Billed](https://app.netlify.com/sites/oc-rv-p9-billed/settings/general)
+- [Billed](https://oc-rv-p9-billed.netlify.app/)
 - [![Netlify Status](https://api.netlify.com/api/v1/badges/86ceaf9e-3b44-4bc1-bbff-c058100f3886/deploy-status)](https://app.netlify.com/sites/oc-rv-p9-billed/deploys)
 ## L'architecture du projet :
 Ce projet, dit frontend, est connecté à un service API backend que vous devez aussi lancer en local.
