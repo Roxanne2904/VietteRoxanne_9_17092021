@@ -68,7 +68,7 @@ describe("Given I am connected as an employee", () => {
       expect(inputFile).toHaveAttribute("type", "file");
     });
 
-    // soutenance test
+    // soutenance 
     describe("When I upload a correct file (jpeg,jpg or png)", () => {
       test("Then, it should render the file's name", () => {
         //----------------------

@@ -1,64 +1,107 @@
-**Comment lancer l'application en local** :
+## Le déploiement du projet sur Netlify
 
-Clonez le projet :
+## L'architecture du projet :
+Ce projet, dit frontend, est connecté à un service API backend que vous devez aussi lancer en local.
+
+Le projet backend se trouve ici: https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-back
+## Organiser son espace de travail :
+Pour une bonne organization, vous pouvez créer un dossier bill-app dans lequel vous allez cloner le projet backend et par la suite, le projet frontend:
+
+Clonez le projet backend dans le dossier bill-app :
+```
+$ git clone https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Back.git
+```
 
 ```
-$ git clone https://github.com/OpenClassrooms-Student-Center/Billed-app-FR.git
+bill-app/
+   - Billed-app-FR-Back
 ```
+
+Clonez le projet frontend dans le dossier bill-app :
+```
+$ git clone https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Front.git
+```
+
+```
+bill-app/
+   - Billed-app-FR-Back
+   - Billed-app-FR-Front
+```
+
+## Comment lancer l'application en local ?
+
+### étape 1 - Lancer le backend :
+
+Suivez les indications dans le README du projet backend.
+Remarques:
+Si vous utiliser le système d'exploitation window:
+- à l'étape "lancer L'API" si ```npm run run:dev``` ne fonctionne pas:
+  - lancer ```npm install --save-dev "cross-env"```
+  - aller dans ```package.json``` puis ajouter ```cross-env``` devant ```NODE_ENV=test``` et ```NODE_ENV=development```
+  - relancer ```npm run run:dev```
+
+### étape 2 - Lancer le frontend :
 
 Allez au repo cloné :
-
 ```
-$ cd Billed-app-FR
+$ cd Billed-app-FR-Front
 ```
 
 Installez les packages npm (décrits dans `package.json`) :
-
 ```
 $ npm install
 ```
 
 Installez live-server pour lancer un serveur local :
-
 ```
 $ npm install -g live-server
 ```
 
 Lancez l'application :
-
 ```
 $ live-server
 ```
 
 Puis allez à l'adresse : `http://127.0.0.1:8080/`
 
-**Comment lancer tous les tests en local avec Jest :**
+
+## Comment lancer tous les tests en local avec Jest ?
 
 ```
 $ npm run test
 ```
 
-**Comment lancer un seul test :**
+## Comment lancer un seul test ?
 
 Installez jest-cli :
 
 ```
 $npm i -g jest-cli
-$npm run test src/__tests__/your_test_file.js
+$jest src/__tests__/your_test_file.js
 ```
 
-**Comment voir la couverture de test :**
+## Comment voir la couverture de test ?
 
-## `http://127.0.0.1:8080/coverage/lcov-report/`
+`http://127.0.0.1:8080/coverage/lcov-report/`
 
----
+## Comptes et utilisateurs :
 
+Vous pouvez vous connecter en utilisant les comptes:
+
+### administrateur : 
+```
+utilisateur : admin@test.tld 
+mot de passe : admin
+```
+### employé :
+```
+utilisateur : employee@test.tld
+mot de passe : employee
+```
 ## Project Recovered by Viette Roxanne :
-
 ---
-
-[Bug Report] Bills. [^1]
-[^1]: Priority High.
+### [Bug Report] Bills.
+- Priority High.
 
 _Given I am connected as an employee > Then I am on Bills's pages > Then Bills should be ordered from earliest to latest_
 
@@ -70,8 +113,8 @@ _Given I am connected as an employee > Then I am on Bills's pages > Then Bills s
 
 ---
 
-[Bug Report] Login. [^1]
-[^1]: Priority High.
+### [Bug Report] Login.
+- Priority High.
 
 _Given I am a user on Login's page > When I do fill fields in correct format and I clicked on admin button Login in > Then I should be identified ans an RH admin in app_
 
@@ -88,8 +131,8 @@ _Given I am a user on Login's page > When i do fill fields in correct format and
 
 ---
 
-[Bug Hunt] Bills. [^1]
-[^1]: Priority High.
+### [Bug Hunt] Bills.
+- Priority High.
 
 \_Je suis connecté en tant qu'employé, je saisis une note de frais avec un justificatif qui a une extension différente de jpg, jpeg ou png, j'envoie. J'arrive sur la page Bills, je clique sur l'icône "voir" pour consulter le justificatif : la modale s'ouvre, mais il n'y a pas d'image.
 
@@ -108,8 +151,8 @@ Si je me connecte à présent en tant qu'Admin, et que je clique sur le ticket c
 
 ---
 
-[Bug Hunt] Bills and Dashboard [^1]
-[^1]: Priority High.
+### [Bug Hunt] Bills and Dashboard
+- Priority High.
 
 \_Sur desktop large: Lorsque que l'on click sur l'image pour voir les factures, l'image dépasse de son conteneur\_
 
@@ -119,8 +162,8 @@ Si je me connecte à présent en tant qu'Admin, et que je clique sur le ticket c
 
 ---
 
-[Bug Hunt] Dashboard [^1]
-[^1]: Priority High.
+### [Bug Hunt] Dashboard [^1]
+- Priority High.
 
 \_Je suis connecté en tant qu'administrateur RH, je déplie une liste de tickets (par exemple : statut "validé"), je sélectionne un ticket, puis je déplie une seconde liste (par exemple : statut "refusé"), je ne peux plus sélectionner un ticket de la première liste. \_
 

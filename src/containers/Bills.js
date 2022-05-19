@@ -58,7 +58,6 @@ export default class {
           const bills = snapshot.docs
             .map((doc) => {
               try {
-                // console.log(doc.data());
                 return {
                   ...doc.data(),
                   // date: formatDate(doc.data().date),
@@ -89,6 +88,7 @@ export default class {
               return dateA < dateB ? 1 : -1;
             })
             .map((data) => {
+              
               return {
                 ...data,
                 date: formatDate(data.date),
