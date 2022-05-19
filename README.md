@@ -112,7 +112,7 @@ Si je me connecte à présent en tant qu'Admin, et que je clique sur le ticket c
 
 ---
 
-### [Bug Hunt] Dashboard [^1]
+### [Bug Hunt] Dashboard
 - Priority High.
 
 \_Je suis connecté en tant qu'administrateur RH, je déplie une liste de tickets (par exemple : statut "validé"), je sélectionne un ticket, puis je déplie une seconde liste (par exemple : statut "refusé"), je ne peux plus sélectionner un ticket de la première liste. \_
