@@ -1,3 +1,5 @@
+## I started this project on 17/09/2021
+*Training begins on 23/12/2020*
 ## Le déploiement du projet sur Netlify
 - [Billed](https://oc-rv-p9-billed.netlify.app/)
 - [![Netlify Status](https://api.netlify.com/api/v1/badges/86ceaf9e-3b44-4bc1-bbff-c058100f3886/deploy-status)](https://app.netlify.com/sites/oc-rv-p9-billed/deploys)
