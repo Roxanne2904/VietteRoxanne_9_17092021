@@ -1,63 +1,29 @@
+## I started this project on 17/09/2021
+*Training begins on 23/12/2020*
 ## Le déploiement du projet sur Netlify
-
-## L'architecture du projet :
-Ce projet, dit frontend, est connecté à un service API backend que vous devez aussi lancer en local.
-
-Le projet backend se trouve ici: https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-back
-## Organiser son espace de travail :
-Pour une bonne organization, vous pouvez créer un dossier bill-app dans lequel vous allez cloner le projet backend et par la suite, le projet frontend:
-
-Clonez le projet backend dans le dossier bill-app :
-```
-$ git clone https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Back.git
-```
-
-```
-bill-app/
-   - Billed-app-FR-Back
-```
-
-Clonez le projet frontend dans le dossier bill-app :
-```
-$ git clone https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Front.git
-```
-
-```
-bill-app/
-   - Billed-app-FR-Back
-   - Billed-app-FR-Front
-```
-
+- [Billed](https://oc-rv-p9-billed.netlify.app/)
+- [![Netlify Status](https://api.netlify.com/api/v1/badges/86ceaf9e-3b44-4bc1-bbff-c058100f3886/deploy-status)](https://app.netlify.com/sites/oc-rv-p9-billed/deploys)
 ## Comment lancer l'application en local ?
-
-### étape 1 - Lancer le backend :
-
-Suivez les indications dans le README du projet backend.
-Remarques:
-Si vous utiliser le système d'exploitation window:
-- à l'étape "lancer L'API" si ```npm run run:dev``` ne fonctionne pas:
-  - lancer ```npm install --save-dev "cross-env"```
-  - aller dans ```package.json``` puis ajouter ```cross-env``` devant ```NODE_ENV=test``` et ```NODE_ENV=development```
-  - relancer ```npm run run:dev```
-
-### étape 2 - Lancer le frontend :
-
-Allez au repo cloné :
+forker ce repository puis cloner le en local:
 ```
-$ cd Billed-app-FR-Front
+$ git clone https://github.com/Roxanne2904/VietteRoxanne_9_17092021.git
 ```
-
+```
+$ cd VietteRoxanne_9_17092021
+```
 Installez les packages npm (décrits dans `package.json`) :
+
 ```
 $ npm install
 ```
 
 Installez live-server pour lancer un serveur local :
+
 ```
 $ npm install -g live-server
 ```
-
 Lancez l'application :
+
 ```
 $ live-server
 ```
@@ -84,20 +50,6 @@ $jest src/__tests__/your_test_file.js
 
 `http://127.0.0.1:8080/coverage/lcov-report/`
 
-## Comptes et utilisateurs :
-
-Vous pouvez vous connecter en utilisant les comptes:
-
-### administrateur : 
-```
-utilisateur : admin@test.tld 
-mot de passe : admin
-```
-### employé :
-```
-utilisateur : employee@test.tld
-mot de passe : employee
-```
 ## Project Recovered by Viette Roxanne :
 ---
 ### [Bug Report] Bills.
@@ -162,7 +114,7 @@ Si je me connecte à présent en tant qu'Admin, et que je clique sur le ticket c
 
 ---
 
-### [Bug Hunt] Dashboard [^1]
+### [Bug Hunt] Dashboard
 - Priority High.
 
 \_Je suis connecté en tant qu'administrateur RH, je déplie une liste de tickets (par exemple : statut "validé"), je sélectionne un ticket, puis je déplie une seconde liste (par exemple : statut "refusé"), je ne peux plus sélectionner un ticket de la première liste. \_
